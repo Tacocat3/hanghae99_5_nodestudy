@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .detailpage {
+          width: auto;
+          display: block;
+          margin-left: 50%;
+          padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<script>
+
+    $(document).ready(function () {
+        let params = new URLSearchParams(location.search)
+        let postId = params.get('postId')
+        showDetailpage(postId);
+    });
+
+    //상세 페이지
+    function showDetailpage(postId) {
+        $.ajax({
+            type: "GET",
+            url: "/api/articles/" + postId,
+            data: {},
+            success: function (response) {
+                let post_detail = response["articles"];
+                let postId = post_detail["postId"];
+                let subject = post_detail["subject"];
+                let author = post_detail["author"];
+                let date = post_detail["date"];
+                let content = post_detail["content"];
+                let temp_html = ` <div class="detailpage">
+                                    <div class="form-group">
+                                      <label>제목</label>
+                                      <p>${subject}</p>
+                                    </div>
+                                    <div class="form-group">
+                                      <label>작성자</label>
+                                      <p>${author}</p>
+                                    </div>
+                                    <div class="form-group">
+                                      <label>작성날짜</label>
+                                      <p>${date}</p>
+                                    </div>
+                                    <div class="form-group">
+                                      <label>작성내용</label>
+                                      <p>${content}</p>
+                                    </div>
+                                    <button class="btn btn-primary" onclick="location.href='/modify.html?postId=${postId}'" >수정/삭제하기</button>
+                                  </div>`;
+                $("#post_detail").append(temp_html);
+            }
+        })
+    }
+
+</script>
+<div id="post_detail">
+</div>
+</body>
+</html>

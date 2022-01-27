@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<script>
+        //게시글 생성
+        function makepost() {
+            let date = new Date()
+        $.ajax({
+            type: "POST",
+            url: "/api/articles",
+            data: {
+                author: $('#author').val(),
+                subject: $('#subject').val(),
+                content: $('#content').val(),
+                password: $('#password').val(),
+                date: date.getFullYear() + '/' + (date.getMonth()+ 1) + '/' + date.getDate(),
+            },
+            success: function (response) {
+                    if (response["result"] == "success") {
+                        alert("게시글이 등록되었습니다!😎");
+                        window.location.href = "/"
+                    }
+                }
+            });
+        }
+
+
+    </script>
+ <div>
+    <div class="form-group">
+    <label>제목</label>
+    <input type="text" class="form-control" id="subject">
+    </div>
+    <div class="form-group">
+    <label>작성자</label>
+    <input type="text" class="form-control" id="author"}>
+    </div>
+    <div class="form-group">
+    <label>작성내용</label>
+    <input type="text" class="form-control" id= "content">
+    </div>
+    <button class="btn btn-primary" onclick="makepost()">등록하기</button><input type="password" id="password" placeholder="비밀번호" style="margin-left: 80%;"> 
+    </div>
+</body>
+</html>
